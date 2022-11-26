@@ -12,6 +12,35 @@ let wind = document.querySelector("#wind");
 
 APIkey = "aa9b7597c845a9a6e6047cacaab43474"
 
+function kelvinToCelsius(kelvin) {
+    return (kelvin - 273).toFixed(1);
+}
+
+function kmHourTomSec(kmHour) {
+    return (kmHour * 1000 / 3600).toFixed(1);
+}
+
+function degToDirection(deg) {
+    switch (true) {
+        case deg == 360 || deg == 0:
+            return "N"
+        case deg == 90:
+            return "E";
+        case deg == 180:
+            return "S";
+        case deg < 90 && deg > 0:
+            return "NE";
+        case deg > 90 && deg < 180:
+            return "SE";
+        case deg > 180 && deg < 270:
+            return "SW";
+        case deg > 270 && deg < 360:
+            return "NW";
+        default:
+            break;
+    }
+}
+
 window.onload = function () {
 
     addingButton.addEventListener('click', function () {
@@ -26,17 +55,18 @@ window.onload = function () {
                 let maxTemp = data['main']['temp_max']
                 let hum = data['main']['humidity']
                 let pres = data['main']['pressure']
-                let wndspd = data['wind']['speed']
+                let windSpeed = data['wind']['speed']
+                let windDirection = data['wind']['deg']
 
                 cityResult.innerHTML = `City: <span>${nameOf}<span>`
                 description.innerHTML = `Weather condition: <span>${descriptionVal}<span>`
                 detailedDescription.innerHTML = `Detailed: <span>${detailedDesc}<span`
-                temperature.innerHTML = `Temperature: <span>${temp} K<span>`
-                minTemperature.innerHTML = `Minimum temperature: <span>${minTemp} K<span>`
-                maxTemperature.innerHTML = `Maximum temperature: <span>${maxTemp} K<span>`
+                temperature.innerHTML = `Temperature: <span>${kelvinToCelsius(temp)} C<span>`
+                minTemperature.innerHTML = `Minimum temperature: <span>${kelvinToCelsius(minTemp)} C<span>`
+                maxTemperature.innerHTML = `Maximum temperature: <span>${kelvinToCelsius(maxTemp)} C<span>`
                 humidity.innerHTML = `Humidity: <span>${hum}%<span>`
                 pressure.innerHTML = `Pressure: <span>${pres} hPa<span>`
-                wind.innerHTML = `Wind Speed: <span>${wndspd} km/h<span>`
+                wind.innerHTML = `Wind speed, direction: <span>${kmHourTomSec(windSpeed)} m/s, ${degToDirection(windDirection)}<span>`
 
             }).catch(err => alert('Oops! You entered wrong city name.'))
     })
