@@ -9,6 +9,7 @@ let maxTemperature = document.querySelector("#max-temperature");
 let humidity = document.querySelector("#humidity");
 let pressure = document.querySelector("#pressure");
 let wind = document.querySelector("#wind");
+let dateTime = document.querySelector("#date-and-time");
 
 APIkey = "aa9b7597c845a9a6e6047cacaab43474"
 
@@ -41,6 +42,17 @@ function degToDirection(deg) {
     }
 }
 
+
+function secToUnix(dT) {
+
+    const milliseconds = dT * 1000
+    const dateObject = new Date(milliseconds)
+    const humanDateFormat = dateObject.toLocaleString()
+
+    return humanDateFormat;
+}
+
+
 window.onload = function () {
 
     addingButton.addEventListener('click', function () {
@@ -57,6 +69,7 @@ window.onload = function () {
                 let pres = data['main']['pressure']
                 let windSpeed = data['wind']['speed']
                 let windDirection = data['wind']['deg']
+                let DT = data['dt']
 
                 cityResult.innerHTML = `City: <span>${nameOf}<span>`
                 description.innerHTML = `Weather condition: <span>${descriptionVal}<span>`
@@ -67,6 +80,7 @@ window.onload = function () {
                 humidity.innerHTML = `Humidity: <span>${hum}%<span>`
                 pressure.innerHTML = `Pressure: <span>${pres} hPa<span>`
                 wind.innerHTML = `Wind speed, direction: <span>${kmHourTomSec(windSpeed)} m/s, ${degToDirection(windDirection)}<span>`
+                dateTime.innerHTML = `Local date and time: <span>${secToUnix(DT)}<span>`
 
             }).catch(err => alert('Oops! You entered wrong city name.'))
     })
