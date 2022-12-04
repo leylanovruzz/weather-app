@@ -11,7 +11,7 @@ let pressure = document.querySelector("#pressure");
 let wind = document.querySelector("#wind");
 let dateTime = document.querySelector("#date-and-time");
 
-APIkey = "aa9b7597c845a9a6e6047cacaab43474"
+APIkey = "b045804ab93431828b3e101e2be26dc1"
 
 function kelvinToCelsius(kelvin) {
     return (kelvin - 273).toFixed(1);
@@ -56,7 +56,7 @@ function secToUnix(dT) {
 window.onload = function () {
 
     addingButton.addEventListener('click', function () {
-        fetch("https://api.openweathermap.org/data/2.5/weather?q=" + inpCity.value + "&appid=3045dd712ffe6e702e3245525ac7fa38")
+        fetch("https://api.openweathermap.org/data/2.5/weather?q=" + inpCity.value + "&appid=" + APIkey)
             .then(res => res.json()).then(data => {
 
                 let nameOf = data['name']
